@@ -701,7 +701,7 @@
                     </h5>
                   </div>
                   <div>
-                    <form action="https://docs.google.com/forms/d/e/1FAIpQLSelAQ55--GVEyB5GLYg_6GqEkDZx5YY15CnxM39oaZVrClFZw/formResponse?" role="form" class="contactForm" name="contactForm">
+                    <form action="" role="form" class="contactForm" name="contactForm" id="contactForm" target="hidden_iframe" onsubmit="submitted=true;">
                       <div id="sendmessage">Your message has been sent. Thank you!</div>
                       <div id="errormessage"></div>
                       <div class="row">
@@ -815,6 +815,7 @@
   <script src="lib/typed/typed.min.js"></script>
   <!-- Contact Form JavaScript File -->
   <script src="contactform/contactform.js"></script>
+  <script type="text/javascript">var submitted=false;</script>
 
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
