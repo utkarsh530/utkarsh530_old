@@ -91,16 +91,21 @@ jQuery(document).ready(function ($) {
     if (ferror) return false;
     else var str = $(this).serialize();
     var action = $(this).attr('action');
-    if( ! action ) {
-      action = 'https://docs.google.com/forms/d/e/1FAIpQLSelAQ55--GVEyB5GLYg_6GqEkDZx5YY15CnxM39oaZVrClFZw/formResponse?';
+    if (!action) {
+      action = 'https://formspree.io/mqkyaare';
     }
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: action,
       data: str,
-      success: function(msg) {
-         //alert(msg);
-        if (msg == 'OK') {
+      headers: { 'Accept': 'application/json' },
+      dataType: 'json',
+      success: function (msg, textStatus, xhr) {
+        //var parsed_data = JSON.parse(msg);
+        console.log(msg);
+        // alert(xhr.status);
+        // alert(msg.ok);
+        if (xhr.status == 200 && msg.ok == true) {
           $("#sendmessage").addClass("show");
           $("#errormessage").removeClass("show");
           $('.contactForm').find("input, textarea").val("");
@@ -110,6 +115,27 @@ jQuery(document).ready(function ($) {
           $('#errormessage').html(msg);
         }
 
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        if (XMLHttpRequest.readyState == 4) {
+          
+          // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
+          console.log(errorThrown)
+        }
+        else if (XMLHttpRequest.readyState == 0) {
+          // Network error (i.e. connection refused, access denied due to CORS, etc.)
+          $("#sendmessage").removeClass("show");
+          $("#errormessage").addClass("show");
+          alert(textStatus);
+          $('#errormessage').html("There seems to be some problem with your connection. Check your internet connection.");
+        }
+        else {
+          // something weird is happening
+          $("#sendmessage").removeClass("show");
+          $("#errormessage").addClass("show");
+          $('#errormessage').html("Error occured. Please try again later or send a direct E-Mail to me.");
+          console.log(errorThrown)
+        }
       }
     });
     return false;
